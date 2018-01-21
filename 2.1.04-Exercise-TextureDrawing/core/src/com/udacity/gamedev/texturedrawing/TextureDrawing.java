@@ -4,6 +4,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 public class TextureDrawing extends ApplicationAdapter {
@@ -15,19 +18,24 @@ public class TextureDrawing extends ApplicationAdapter {
     ExtendViewport viewport;
 
     // TODO: Declare a SpriteBatch
-
+    SpriteBatch spriteBatch;
 
     // TODO: Declare a Texture for the Udacity Logo
-
+    Texture udacityLogo;
 
     @Override
     public void create() {
         viewport = new ExtendViewport(WORLD_SIZE, WORLD_SIZE);
 
         // TODO: Initialize the SpriteBatch
-
+        spriteBatch = new SpriteBatch();
 
         // TODO: Load the Udacity logo Texture (look in android/assets)
+        try {
+            udacityLogo = new Texture(Gdx.files.internal("udacity_logo_white.png"));
+        } catch (GdxRuntimeException e) {
+            udacityLogo = new Texture(Gdx.files.internal("android/assets/udacity_logo_white.png"));
+        }
 
     }
 
@@ -38,19 +46,19 @@ public class TextureDrawing extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // TODO: Set the SpriteBatch's projection matrix
-
+        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
 
         // TODO: Begin the sprite batch
-
+        spriteBatch.begin();
 
         // TODO: First just draw the udacity logo at LOGO_SIZE in the bottom left of the screen
-
+        //spriteBatch.draw(udacityLogo, 0, 0, LOGO_SIZE, LOGO_SIZE);
 
         // TODO: Then try centering the logo
-
+        spriteBatch.draw(udacityLogo, viewport.getWorldWidth() / 2 - LOGO_SIZE / 2, viewport.getWorldHeight() / 2 - LOGO_SIZE / 2, LOGO_SIZE, LOGO_SIZE);
 
         // TODO: End the sprite batch
-
+        spriteBatch.end();
     }
 
     @Override
